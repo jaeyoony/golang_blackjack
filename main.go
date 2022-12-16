@@ -16,7 +16,7 @@ func main() {
 	fmt.Println(". . new round dealer : ", new_round.Dealer)
 	fmt.Println(". . new round player : ", new_round.Human)
 
-	next_card := new_round.Hit()
-	fmt.Println(". . Next hit card : ", next_card)
+	new_round.PlayerTurn()
 
+	fmt.Println(". . post round player : ", new_round.Human)
 }
