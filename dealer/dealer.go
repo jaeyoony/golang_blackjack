@@ -33,8 +33,8 @@ func StartRound(decks int) Round {
 	dealer.Cards = append(dealer.Cards, temp_deck[1])
 	player.Cards = append(player.Cards, temp_deck[2])
 	dealer.Cards = append(dealer.Cards, temp_deck[3])
-	player.Score = player.getTotalScore()
-	dealer.Score = dealer.getTotalScore()
+	player.Score = player.getTotalScore(true)
+	dealer.Score = dealer.getTotalScore(false)
 	
 	// reveal Dealer's first card 
 
@@ -53,7 +53,7 @@ func (r *Round) Hit() deck.Card {
 // handle human player turn 
 func (r *Round) PlayerTurn() {
 	var response string 
-	fmt.Println("                  --- PLAYER TURN ---")
+	fmt.Println("              --- PLAYER TURN ---")
 
 	// debug; change this back to 21 when done testing
 	for(r.Human.Score < 21 && r.Human.Score > 0) {
@@ -120,10 +120,14 @@ func (r Round) EndRound() {
 }
 
 
-func (p Player) getTotalScore() int {
+func (p Player) getTotalScore(isHuman bool) int {
 	temp_sum := 0
 	for _, i := range(p.Cards) {
-		temp_sum += getCardValue(i)
+		if(i.Val == 1 && !isHuman) {
+			temp_sum += 11
+		} else {
+			temp_sum += getCardValue(i)
+		}
 	}
 	return temp_sum
 }

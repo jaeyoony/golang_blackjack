@@ -11,10 +11,8 @@ func main() {
 	
 	// test roundStart
 	new_round := dealer.StartRound(0)
-	fmt.Println("TEST ROUND started")
-	fmt.Println(". . New Round deck size : ", len(new_round.PlayDeck))
 	fmt.Println(". . new round dealer : ", new_round.Dealer)
-	fmt.Println(". . new round player : ", new_round.Human)
+	fmt.Println(". . new round player : ", new_round.Human, "\n\n")
 
 	new_round.PlayerTurn()
 
