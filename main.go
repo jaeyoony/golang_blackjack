@@ -18,5 +18,7 @@ func main() {
 
 	new_round.PlayerTurn()
 
-	fmt.Println(". . post round player : ", new_round.Human)
+	// fmt.Println(". . post round player : ", new_round.Human)
+	new_round.DealerTurn()
+	new_round.EndRound()
 }
