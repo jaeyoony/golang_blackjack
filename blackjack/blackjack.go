@@ -1,14 +1,14 @@
-package dealer
+package blackjack
 
 import( 
 	"fmt"
 	"strconv"
 	"github.com/jaeyoony/deck_of_cards/deck"
 )
-
-type Player struct {
-	Cards []deck.Card
-	Score int
+type BlackjackGame struct {
+	HumanWins int
+	DealerWins int
+	Rounds int 
 }
 
 type Round struct {
@@ -18,7 +18,40 @@ type Round struct {
 	Human Player
 }
 
+type Player struct {
+	Cards []deck.Card
+	Score int
+}
+
 var suits = [...]string{"Spades", "Diamonds", "Clubs", "Hearts"}
+
+// ********* BLACKJACK struct methods ********* // 
+func StartGame(rounds int, addl_decks int) {
+	newGame := BlackjackGame{0, 0, rounds}
+
+	for i:=0; i < rounds; i++ {
+		new_round := StartRound(addl_decks)
+		new_round.PlayerTurn()
+		new_round.DealerTurn()
+		result := new_round.EndRound()
+
+		if(result == 1) {
+			newGame.HumanWins++
+		} else {
+			newGame.DealerWins++
+		}
+		newGame.Rounds--
+	}
+
+	fmt.Println("FINAL SCORE : ", newGame.HumanWins, " VS ", newGame.DealerWins)
+	
+	if(newGame.HumanWins > newGame.DealerWins) {
+		fmt.Println(" YOU BEAT THE DEALER!")
+
+	} else {
+		fmt.Println(" YOU GOT YO ASS BEAT BY THE DEALER!")
+	}
+}
 
 
 // ********* ROUND struct methods ********* //
@@ -96,7 +129,7 @@ func (r Round) DealerTurn() {
 	return
 }
 
-func (r Round) EndRound() {
+func (r Round) EndRound() int {
 	// print dealer info
 	fmt.Println("Dealers hand : ")
 	for _, i := range(r.Dealer.Cards) {
@@ -114,8 +147,10 @@ func (r Round) EndRound() {
 	// determine the winner
 	if(r.Human.Score > r.Dealer.Score) {
 		fmt.Println(" ~~~~~~ Congratulations!!! you beat the dealer! ~~~~~~ ")
+		return 1
 	} else {
 		fmt.Println(" ------- YOU LOSE -------")
+		return 2
 	}
 }
 
